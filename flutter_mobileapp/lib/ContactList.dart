@@ -27,7 +27,7 @@ class _ViewContactState extends State<ViewContact> {
   }
 
   fetchUser() async {
-    Uri url = Uri.http('https://firstappdeployment.herokuapp.com', '/router/get');
+    Uri url = Uri.http('firstappdeployment.herokuapp.com', '/router/get');
     http.Response res = await http.get(url);
 
     if (res.statusCode == 200) {

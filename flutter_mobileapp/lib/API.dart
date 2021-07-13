@@ -3,7 +3,7 @@ import 'dart:convert';
 import './Model/data_model.dart';
 
  Future<Contacts> createContact(String firstname, String lastname, List<dynamic> phonenumbers) async {
-  Uri url = Uri.http('10.0.2.2:3000', '/router/create');
+  Uri url = Uri.http('firstappdeployment.herokuapp.com', '/router/create');
     final res = await http.post(url,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
