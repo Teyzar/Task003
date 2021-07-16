@@ -3,6 +3,7 @@ const express = require('express');
 const users = require('../model/login');
 const router = express.Router();
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
@@ -58,6 +59,16 @@ router.post('/login', async(req, res) => {
             });
         } else {
             res.json({message: "Succesfuly logged in"});
+
+            const token = jwt.sign(
+                { username: req.body.username },
+                'RANDOM_TOKEN_SECRET',
+                { expiresIn: '24h' });
+              res.status(200).json({
+                username: req.body.username,
+                password: req.body.password,
+                token: token
+              });
         }
 });
 
