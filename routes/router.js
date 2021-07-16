@@ -14,7 +14,7 @@ router.use(express.json());
 
 var md5 = crypto.createHash('md5').update(user + secret).digest('hex');
 
-router.get('/get/' , async (req,res) => {
+router.get('/get' , async (req,res) => {
     if (req.body.token === md5) {
     const phonedoc = await model.find();
     res.json(phonedoc);
