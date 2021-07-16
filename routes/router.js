@@ -52,9 +52,9 @@ router.post('/login', async(req, res) => {
             password : req.body.password,
         });
         if (account.username != user && account.password != pass) {
-            res.send({message : err});
+            res.json({message : err});
         } else {
-            res.send ("Succesfuly logged in");
+            res.json({message: "Succesfuly logged in"});
         }
 });
 
