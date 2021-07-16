@@ -46,7 +46,7 @@ router.delete('/delete/:id', async(req,res) => {
 
 
 router.post('/login', async(req, res) => {
-    const account = new router(
+    const account = new user(
         {
             username : req.body.username,
             password : req.body.password,
