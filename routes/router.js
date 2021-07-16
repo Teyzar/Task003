@@ -52,12 +52,7 @@ router.post('/login', async(req, res) => {
             username : req.body.username,
             password : req.body.password,
         });
-        if (account.username != user && account.password != pass) {
-            res.json(400, {
-                error: 1,
-                msg: "Invalid credentials"
-            });
-        } else {
+        if (account.username === user && account.password === pass) {
             res.json({message: "Succesfuly logged in"});
 
             const token = jwt.sign(
@@ -69,6 +64,11 @@ router.post('/login', async(req, res) => {
                 password: req.body.password,
                 token: token
               });
+        } else {
+              res.json(400, {
+                error: 1,
+                msg: "Invalid credentials"
+            });
         }
 });
 
