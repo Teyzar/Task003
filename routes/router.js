@@ -1,6 +1,11 @@
 const model = require('../model/models.js');
 const express = require('express');
+const user = require('../model/login');
 const router = express.Router();
+require('dotenv').config();
+
+const user = process.env.DB_USER;
+const pass = process.env.DB_PASS;
 
 router.use(express.json());
 
@@ -38,5 +43,19 @@ router.delete('/delete/:id', async(req,res) => {
     res.json(doc);
     });
 })
+
+
+router.post('/login', async(req, res) => {
+    const account = new router(
+        {
+            username : req.body.username,
+            password : req.body.password,
+        });
+        if (account.username != user && account.password != pass) {
+            res.send({message : err});
+        } else {
+            res.send ("Succesfuly logged in");
+        }
+});
 
 module.exports = router;
