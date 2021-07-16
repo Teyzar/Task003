@@ -45,17 +45,17 @@ router.delete('/delete/:id', async(req,res) => {
 })
 
 
-router.post('/login', async(req, res) => {
-    const account = new router(
-        {
-            username : req.body.username,
-            password : req.body.password,
-        });
-        if (account.username != user && account.password != pass) {
-            res.send({message : err});
-        } else {
-            res.send ("Succesfuly logged in");
-        }
-});
+// router.post('/login', async(req, res) => {
+//     const account = new router(
+//         {
+//             username : req.body.username,
+//             password : req.body.password,
+//         });
+//         if (account.username != user && account.password != pass) {
+//             res.send({message : err});
+//         } else {
+//             res.send ("Succesfuly logged in");
+//         }
+// });
 
 module.exports = router;
