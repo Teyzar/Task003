@@ -1,6 +1,6 @@
 const model = require('../model/models.js');
 const express = require('express');
-const user = require('../model/login');
+const users = require('../model/login');
 const router = express.Router();
 require('dotenv').config();
 
@@ -46,7 +46,7 @@ router.delete('/delete/:id', async(req,res) => {
 
 
 router.post('/login', async(req, res) => {
-    const account = new user(
+    const account = new users(
         {
             username : req.body.username,
             password : req.body.password,
