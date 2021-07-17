@@ -12,7 +12,7 @@ const model = mongoose.Schema({
     phonenumbers: 
     {
         type: Array, require:true
-    }
+    },
 });
 
 

@@ -6,27 +6,40 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bc = require('bcrypt');
 const crypto = require('crypto');
+const { header } = require('express-validator');
 
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
 const secret = process.env.SECRET_KEY;
 
-var token = jwt.sign({ user , secret}, 'TOP_SECRET');
+var token = jwt.sign({ user, pass}, secret);
 var md5 = crypto.createHash('md5').update(token).digest('hex');
 
 router.use(express.json());
 
-router.get('/get' , async (req,res) => {
-    if (req.body.token === md5) {
-    const phonedoc = await model.find();
-    res.json({phonedoc, token: md5});
+
+router.post('/login', async(req, res) => {
+    const account = new users(
+        {
+            username : req.body.username,
+            password : req.body.password,
+        });
+    if (account.username === user && account.password === pass) {
+        
+        res.json({message : "Succesfully login" , token : md5});
+        
     } else {
-        res.json(400, {
+            res.json(400, {
             error: 1,
-            msg: "Requires token for Authorization to Access API",
-            token : " ? "
+            msg: "Invalid credentials"
         });
     }
+});
+
+
+router.get('/get', async (req,res) => {
+    const phonedoc = await model.find();
+    res.json(phonedoc);
 });
 
 router.get('/get/:firstname', async (req, res) => {
@@ -62,7 +75,8 @@ router.post('/create', async(req, res) => {
     {
         lastname : req.body.lastname,
         firstname : req.body.firstname,
-        phonenumbers : req.body.phonenumbers
+        phonenumbers : req.body.phonenumbers,
+        token : req.body.token
     });
     if (req.body.token == md5) {
         Phonebook.save().then(data => {
@@ -111,24 +125,15 @@ router.delete('/delete/:id', async(req,res) => {
     }
 })
 
-
-router.post('/login', async(req, res) => {
-    const account = new users(
-        {
-            username : req.body.username,
-            password : req.body.password,
-            token : req.body.token,
-        });
-    if (account.username === user && account.password === pass) {
-        
-        res.json({message : "Succesfully login" , token : md5});
+function verifyToken(req,res,next) {
+    const bearerHeader = req.headers['authorization'];
+    if (typeof bearerHeader !== undefined) {
 
     } else {
-            res.json(400, {
-            error: 1,
-            msg: "Invalid credentials"
-        });
+        res.sendStatus(403);
     }
-});
+}
+
+
 
 module.exports = router;
