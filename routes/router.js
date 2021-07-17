@@ -23,10 +23,15 @@ router.post('/login', async(req, res) => {
         {
             username : req.body.username,
             password : req.body.password,
+            token : md5
         });
     if (account.username === user && account.password === pass) {
+
+        account.save().then(data => {
+            res.json({data})
+        })
         
-        res.json({message : "Succesfully login" , token : md5});
+        // res.json({message : "Succesfully login" , token : md5});
         
     } else {
             res.json(400, {
