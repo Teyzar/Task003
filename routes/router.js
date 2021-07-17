@@ -19,7 +19,7 @@ router.use(express.json());
 router.get('/get' , async (req,res) => {
     if (req.body.token === md5) {
     const phonedoc = await model.find();
-    res.json(phonedoc);
+    res.json({phonedoc, token: md5});
     } else {
         res.json(400, {
             error: 1,
