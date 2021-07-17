@@ -9,6 +9,10 @@ const model = new mongoose.Schema({
     {
         type: String, require:true
     },
+    token :
+    {
+        type: String, require:true
+    }
 });
 
 module.exports = mongoose.model('Login auth', model );
