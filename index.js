@@ -2,8 +2,10 @@ const express = require('express');
 //const cors = require('cors');
 const mongoose = require('mongoose');
 const route = require('./routes/router.js');
-
+const auth = require('./routes/auth');
+const passport = require('passport');
 require('dotenv').config();
+require('./routes/passport');
 
 //app.use(cors());
 const app = express();
@@ -18,8 +20,12 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, functio
     if (!err) console.log(`Connected to DataBase`);
 });
 
-app.use('/router', route);
+// app.use('/router', route);
+app.use('/auth', auth);
+app.use('/router', passport.authenticate('jwt', {session: false}), route);
+
 
 // app.listen(port, () => console.log(`Listening on port : http://localhost:${port}`));
 
 app.listen(port, () => {console.log(`Listening on port : http://localhost:${port}`)});
+
