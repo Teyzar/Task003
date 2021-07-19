@@ -1,26 +1,12 @@
 const model = require('../model/models.js');
 const express = require('express');
-const users = require('../model/login');
 const router = express.Router();
-const app = express();
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const bc = require('bcrypt');
-const crypto = require('crypto');
-const { header } = require('express-validator');
-const passport = require('passport');
-const JWTstrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
-const auth = require('./auth');
+
 
 require('./passport');
 
-const user = process.env.DB_USER;
-const pass = process.env.DB_PASS;
-const secret = process.env.SECRET_KEY;
-
-//var token = jwt.sign({ user, pass}, secret);
-//var md5 = crypto.createHash('md5').update(token).digest('hex');
 
 router.use(express.json());
 
