@@ -22,7 +22,7 @@ router.post('/login', function (req, res, next) {
         }      
         req.login(user, {session: false}, (err, result) => {     
             const token = jwt.sign({user}, secret); 
-            res.json({user, token});
+            res.json({user, token})
         });
     })(req, res, next);
 });
