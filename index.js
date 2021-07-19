@@ -25,6 +25,8 @@ app.use('/auth', auth);
 app.use('/router', passport.authenticate('jwt', {session: false}), route);
 
 
+
+
 // app.listen(port, () => console.log(`Listening on port : http://localhost:${port}`));
 
 app.listen(port, () => {console.log(`Listening on port : http://localhost:${port}`)});
