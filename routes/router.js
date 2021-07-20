@@ -12,18 +12,19 @@ router.use(express.json());
 
 
 router.get('/get', async (req,res) => {
-    const phonedoc = await model.find();
+    var mysort = {lastname : 1};
+    const phonedoc = await model.find().sort(mysort);
     res.json(phonedoc);
 });
 
-router.get('/get/:firstname', async (req, res) => {
+router.get('/get/firstname/:firstname', async (req, res) => {
     const phonedocs = await model.find({firstname : req.params.firstname}).then(function(phonedocs) {
         res.json(phonedocs);
     });
 });
 
-router.get('/get/:lastname', async (req, res) => {
-    const phonedocs = await model.find({lastname : req.params.lastname}).then(function(phonedocs) {
+router.get('/get/lname/:lastname', async (req, res) => {
+    const phonedocs = await model.findOne({lastname : req.params.lastname}).then(function(phonedocs) {
         res.json(phonedocs);
     });
 });
@@ -45,9 +46,15 @@ router.post('/create', async(req, res) => {
     });
 });
 
+router.put('/update/:firstname', async (req,res) => {
+    const doc = await model.findByIdAndUpdate({firstname: req.params.firstname}, req.body).then(function() {
+        model.findOne({firstname: req.params.firstname}).then(function(doc){
+            res.json(doc);
+        })
+    });
+});
 
 router.put('/update/:id', async (req,res) => {
-
     const doc = await model.findByIdAndUpdate({_id: req.params.id}, req.body).then(function() {
         model.findOne({_id: req.params.id}).then(function(doc){
             res.json(doc);
@@ -57,33 +64,23 @@ router.put('/update/:id', async (req,res) => {
 
 router.delete('/delete/:id', async(req,res) => {
     const doc = await model.findByIdAndDelete({_id:req.params.id}).then(function(doc) {
-    res.json(doc);
+        res.json(doc);
     });
 });
 
-router.post('/post', verifyToken, (req, res) => {
-    jwt.verify(req.token, (err, authData) => {
-        if(err) {
-            res.sendStatus(403);
-        } else {
-            res.json({
-                message: "post", authData
-            });
-        }
-    });
-});
 
-function verifyToken(req,res,next) {
-    const bearerHeader = req.headers['authorization'];
-    if (typeof bearerHeader !== undefined) {
-        const bearer = bearerHeader.split(" ");
-        const bearerToken = bearer[1];
-        req.token = bearerToken;
-        next();
-    } else {
-        res.sendStatus(403);
-    }
-}
+
+// function verifyToken(req,res,next) {
+//     const bearerHeader = req.headers['authorization'];
+//     if (typeof bearerHeader !== undefined) {
+//         const bearer = bearerHeader.split(" ");
+//         const bearerToken = bearer[1];
+//         req.token = bearerToken;
+//         next();
+//     } else {
+//         res.sendStatus(403);
+//     }
+// }
 router.get('/profile', (req, res, next) => {
     res.json(req.user);
 });
