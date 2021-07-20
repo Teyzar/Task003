@@ -1,5 +1,4 @@
 const express = require('express');
-//const cors = require('cors');
 const mongoose = require('mongoose');
 const route = require('./routes/router.js');
 const auth = require('./routes/auth');
@@ -7,27 +6,36 @@ const passport = require('passport');
 require('dotenv').config();
 require('./routes/passport');
 
-//app.use(cors());
 const app = express();
 app.use(express.json());
-
 const url = process.env.DB_URL;
-
 const port = process.env.PORT || 3000;
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, function(err){
-    if (err) console.log(err);
-    if (!err) console.log(`Connected to DataBase`);
+
+    if (err) initFail();
+    if (!err) init();
 });
 
-// app.use('/router', route);
 app.use('/auth', auth);
 app.use('/router', passport.authenticate('jwt', {session: false}), route);
 
+async function init () {
+    await sleep(2000);
+    console.log('Initializing connection...');
+    await sleep(2000);
+    console.log('Connected to DataBase');
+}
 
+async function initFail () {
+    await sleep(2000);
+    console.log('Initializing connection...');
+    await sleep(2000);
+    console.log('Failed to connect..');
+}
 
+app.listen(port, () => {console.log(`Listening on port : http://localhost:${port}`)}); 
 
-// app.listen(port, () => console.log(`Listening on port : http://localhost:${port}`));
-
-app.listen(port, () => {console.log(`Listening on port : http://localhost:${port}`)});
 
