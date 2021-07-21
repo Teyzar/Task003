@@ -10,9 +10,9 @@ const model = mongoose.Schema({
         type: String, require:true
     },
     phonenumbers: 
-    {
-        type: Number, require:true
-    },
+    [{
+        type: String, require:true
+    }],
 });
 
 
