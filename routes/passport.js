@@ -33,9 +33,8 @@ passport.use('signup', new LocalStrategy({
     async (email, password, done) => {    
 
         try {
-            users.findOne({email}, (err, result) => {
-                
-                result ?  done(null, {message: "Email Already Exist!"}) : users.create({email, password}); done(null, {message: "Succesful"});
+            users.findOne({email}, (err, result) => {    
+                result ?  done(null, {message: "Email Already Exist!"}) : users.create({email, password}); done(null, {message: "Succesful"}); 
             })
         } catch (error) {
             done(error);
@@ -49,16 +48,16 @@ passport.use('login', new LocalStrategy({
 }, 
 async (email, password, done) => {    
 
-    try {
-        users.findOne({email}, (err, result) => {
-            if (err) throw error;
-            !result ?  done(null, {message: "User doesn't exist "}) : users.findOne({password} , (err, res) => {
-                if (err) throw err;
-                !res ? done(null, {message: "You entered Wrong password!"}) : done(null, {message: "Log in succesfuly! "});
-            });
-        })
-    } catch (error) {
-        done(error);
-    }
-}
+        try {
+            users.findOne({email}, (err, result) => {
+                if (err) throw error;
+                !result ?  done(null, {message: "User doesn't exist "}) : users.findOne({password} , (err, res) => {
+                    if (err) throw err;
+                    !res ? done(null, {message: "You entered Wrong password!"}) : done(null, {message: "Log in succesfuly! "});
+                });
+            })
+        } catch (error) {
+            done(error);
+        }
+    }   
 ));

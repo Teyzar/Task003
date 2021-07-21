@@ -20,6 +20,7 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, functio
 });
 
 app.use('/auth', auth);
+
 app.use('/router', passport.authenticate('jwt', {session: false}), route);
 
 async function init () {
