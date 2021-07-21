@@ -12,7 +12,7 @@ router.use(express.json());
 
 
 router.get('/get', async (req,res) => {
-    var mysort = {lastname : 1};
+    var mysort = {lastname : 1, firstname : 1};
     const phonedoc = await model.find().sort(mysort);
     res.json(phonedoc);
 });
