@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-
-
 require('./passport');
 
 
@@ -36,7 +34,6 @@ router.post('/create', async(req, res) => {
         lastname : req.body.lastname,
         firstname : req.body.firstname,
         phonenumbers : req.body.phonenumbers,
-        token : req.body.token
     });
     Phonebook.save().then(data => {
         res.json(data);
@@ -54,8 +51,8 @@ router.put('/update/:firstname', async (req,res) => {
     });
 });
 
-router.put('/update/:id', async (req,res) => {
-    const doc = await model.findByIdAndUpdate({_id: req.params.id}, req.body).then(function() {
+router.patch('/edit/:id', async (req,res) => {
+    const doc = await model.findOneAndUpdate(req.params._id, {firstname: req.body.firstname, lastname: req.body.lastname, phonenumbers: req.body.phonenumbers}, req.body).then(function() {
         model.findOne({_id: req.params.id}).then(function(doc){
             res.json(doc);
         })
@@ -67,8 +64,6 @@ router.delete('/delete/:id', async(req,res) => {
         res.json(doc);
     });
 });
-
-
 
 // function verifyToken(req,res,next) {
 //     const bearerHeader = req.headers['authorization'];
