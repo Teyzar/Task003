@@ -51,8 +51,8 @@ router.put('/update/:firstname', async (req,res) => {
     });
 });
 
-router.patch('/edit/:id', async (req,res) => {
-    const doc = await model.findOneAndUpdate(req.params._id, {firstname: req.body.firstname, lastname: req.body.lastname, phonenumbers: req.body.phonenumbers}, req.body).then(function() {
+router.put('/edit/:id', async (req,res) => {
+    const doc = await model.findOneAndUpdate({_id: req.params.id}, {firstname: req.body.firstname, lastname: req.body.lastname, phonenumbers: req.body.phonenumbers}, req.body).then(function() {
         model.findOne({_id: req.params.id}).then(function(doc){
             res.json(doc);
         })
