@@ -10,7 +10,8 @@ router.use(express.json());
 
 
 router.get('/get', async (req,res) => {
-    const phonedoc = await model.find();
+    var mySort = {firstname: 1};
+    const phonedoc = await model.find().sort(mySort);
     res.json(phonedoc);
 });
 
