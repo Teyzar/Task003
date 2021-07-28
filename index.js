@@ -21,7 +21,7 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}, functio
 
 app.use('/auth', auth);
 
-app.use('/router', passport.authenticate('jwt', {session: false}), route);
+app.use('/router', route);
 
 async function init () {
     await sleep(2000);
